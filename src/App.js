@@ -1,29 +1,26 @@
 import React from 'react';
 import './App.css';
-import ReactDOM from 'react-dom';
-import {Link} from 'react-router-dom';
 import BookSelf from './BookSelf';
 import BookSearch from './BookSearch';
+import noMatch from './noMatch';
 import * as BooksAPI from './BooksAPI';
-import {Route} from 'react-router-dom';
+import {Switch,Route} from 'react-router-dom';
 class BooksApp extends React.Component {
   state = {
     books:[]
   }
 
-
-  componentDidMount(){
+  getBook = () => {
     BooksAPI.getAll().then((books)=>{
       this.setState({books : books})
       // console.log(books)
      })
   }
+  componentDidMount(){
+    this.getBook();
+  }
  moveShelf = (book,shelf )=> {
-  BooksAPI.update(book,shelf);
-  BooksAPI.getAll().then((books)=>{
-    this.setState({books : books})
-    // console.log(books)
-   })
+  BooksAPI.update(book,shelf).then((resolve) => this.getBook());
     // console.log(books)
 };
   render() {
@@ -31,9 +28,11 @@ class BooksApp extends React.Component {
     return (
 
       <div className="app">
-
-        <Route exact path="/" render={() => ( <BookSelf books={this.state.books} moveShelf= {this.moveShelf} /> )} />
-        <Route path="/search" render={() => (<BookSearch books={this.state.books} moveShelf={this.moveShelf} /> )} />
+        <Switch>
+          <Route exact path="/" render={() => ( <BookSelf books={this.state.books} moveShelf= {this.moveShelf} /> )} />
+          <Route path="/search" render={() => (<BookSearch books={this.state.books} moveShelf={this.moveShelf} /> )} />
+          <Route component={noMatch} />
+        </Switch>
             {/* <Route excat path="/" component={BookSelf}/>
               <Route   path="/search" component={BookSearch}/> --> */}
       </div>

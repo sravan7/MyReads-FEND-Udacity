@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import BookSearch from './BookSearch';
-import {Route} from 'react-router-dom';
 import {Link} from 'react-router-dom';
 import Books from './Books';
 class BookSelf extends Component {
@@ -43,20 +41,19 @@ class BookSelf extends Component {
               <div className="bookshelf-books">
                 <ol className="books-grid">
                 {
-                  this.props.books.filter(book => book.shelf=="read").map(book => (
+                  this.props.books.filter(book => book.shelf==="read").map(book => (
                     <li key={book.id}>
                       <Books book={book} moveShelf={this.props.moveShelf} currentPosition="read" />
                     </li>
                    ))
                 }
-
                 </ol>
               </div>
             </div>
           </div>
         </div>
         <div className="open-search">
-          <Link  to="/search" >Add a book </Link> 
+          <Link  to="/search" >Add a book </Link>
         </div>
       </div>
 
