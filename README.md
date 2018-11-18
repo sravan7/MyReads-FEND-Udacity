@@ -6,4 +6,4 @@
 2. Install depedencies by `npm install`
 3. Start the server by `npm start`
 
-__ Project will be opened in the browser `http://localhost:3000` __
+__Project will be opened in the browser `http://localhost:3000`__
