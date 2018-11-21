@@ -6,20 +6,21 @@ import Read from './Read'
 class SearchPage extends Component{
   state = {
     query: "",
-    searchResults:[]
+    searchResults:[],
+    filterResults:[]
   }
   getSearchedBooks = (query) =>{
     this.setState({query:query})
     if (query.length>2){
       BooksAPI.search(query).then((response)=>{
-        //console.log(response);
+
         if(!response){
           this.setState({searchResults:[]})
         }
         else {
-            //this.setState({searchResults : response})
-            this.state.searchResults = response;
-            this.setState({searchResults:this.filterdBooks()})
+            this.setState({searchResults : response})
+            //console.log(response);
+            this.filterdBooks();
           }
       })
     }
@@ -36,11 +37,12 @@ class SearchPage extends Component{
               break;
             }
         }
+
       })
-    return this.state.searchResults
+    this.setState({filterResults:this.state.searchResults})
   }
   render(){
-    //console.log(this.state.searchResults);
+    //console.log(this.state.searchResults, this.state.filterResults);
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -50,7 +52,7 @@ class SearchPage extends Component{
           </div>
         </div>
         <div className="search-books-results">
-          <Read book={this.state.searchResults} moveShelf={this.props.moveShelf} />
+          <Read book={this.state.filterResults} moveShelf={this.props.moveShelf} />
         </div>
       </div>
     )
